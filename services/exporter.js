@@ -1,18 +1,25 @@
 var async = require('async');
 var Web3 = require('web3');
+var moment = require('moment');
 
 var exporter = function(config, db) {
   var self = this;
+
   self.config = config;
   self.db = db;
   
   self.web3 = new Web3();
   self.web3.setProvider(config.provider);
-  
+  console.log("Genesis: " + config.exportStartBlock)
   self.contract = self.web3.eth.contract(config.erc20ABI).at(config.tokenAddress);
   self.allEvents = self.contract.allEvents({fromBlock: config.exportStartBlock, toBlock: "latest"});
   self.newEvents = self.contract.allEvents();
   
+  this.contract = self.web3.eth.contract(config.erc20ABI).at(config.tokenAddress);
+
+  console.log(this.contract.totalSupply());
+  console.log(this.contract.balanceOf("0xed9d02e382b34818e88b88a309c7fe71e65f419d"));
+
   // Processes new events
   self.newEvents.watch(function(err, log) {
     if (err) {
@@ -81,7 +88,8 @@ var exporter = function(config, db) {
         callback();
         return;
       }
-      
+      console.log("Timestamp: " + block.timestamp);
+      console.log("Date: " + moment(block.timestamp, "yy/mm/dd").fromNow());
       log.timestamp = block.timestamp;
       
       if (log.args && log.args._value) {
@@ -95,6 +103,8 @@ var exporter = function(config, db) {
           } else {
             console.log("Error inserting log:", err);
           }
+        }else{
+          console.log("Insertion " + newLogs);
         }
         
         callback();

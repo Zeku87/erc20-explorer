@@ -10,17 +10,20 @@ var nodeStatus = function(config) {
   
   this.updateStatus = function() {
     var web3 = new Web3();
+    console.log("Provider: " + config.provider);
     web3.setProvider(config.provider);
     
     async.waterfall([
       function(callback) {
         web3.version.getNode(function(err, result) {
           self.version = result;
+          console.log("version " + result)
           callback(err);
         });
       }, function(callback) {
         web3.net.getPeerCount(function(err, result) {
           self.nbrPeers = result;
+          console.log("peers " + result);
           callback(err);
         });
       }
