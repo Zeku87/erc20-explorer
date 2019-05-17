@@ -1,7 +1,10 @@
 {"_id":"0x87a4a4aaecb0f98c642610e14e7b8958cf4adddc","balance":4000}
 {"_id":"0xcf881f397fa3b4bbd82f14e6f462d523c4c32ee0","balance":930}
-{"_id":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","balance":16000}
+{"_id":"0xe46827ca973d114bc9ce565306393898a0b3b69c","balance":10}
+{"_id":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","balance":1990}
 {"address":"0x938781b9796aea6376e40ca158f67fa89d5d8a18","blockHash":"0x3a538091d330d7f8bafe6edc398b5925a8aa8f0eccd1344d06541fb125464d83","blockNumber":10,"logIndex":0,"removed":false,"transactionHash":"0xf38bd878249efd7533c0941777fa57580e5a335b9c06885519f3fe7a9e992d04","transactionIndex":0,"event":"Transfer","args":{"_from":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_to":"0xcf881f397fa3b4bbd82f14e6f462d523c4c32ee0","_value":10},"_id":"10_0_0","timestamp":1558000902548690000}
+{"address":"0x938781b9796aea6376e40ca158f67fa89d5d8a18","blockHash":"0x38df818f15b637be8b30add5b907d59c5d82d06e6615b5908ca9c95286655d49","blockNumber":11,"logIndex":0,"removed":false,"transactionHash":"0xfac70c0bf0675a9c60b2220b6d745b2841518c5eea22887be04b11c19928cbb8","transactionIndex":0,"event":"Approval","args":{"_owner":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_spender":"0xe46827ca973d114bc9ce565306393898a0b3b69c","_value":120},"_id":"11_0_0","timestamp":1558089177903641000}
+{"address":"0x938781b9796aea6376e40ca158f67fa89d5d8a18","blockHash":"0x7d4cf32c92c9341670f9dcc81d8cabb9e7994ad34b9e81abfc172adabf8cb3d8","blockNumber":12,"logIndex":0,"removed":false,"transactionHash":"0x648899acc467f3d18578b7b895c38073e8932d48b63332b944e9260603f53558","transactionIndex":0,"event":"Transfer","args":{"_from":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_to":"0xe46827ca973d114bc9ce565306393898a0b3b69c","_value":10},"_id":"12_0_0","timestamp":1558089325519976400}
 {"address":"0x938781b9796aea6376e40ca158f67fa89d5d8a18","blockHash":"0x6f6ddb63a1bdf0978ed5505666f74da5e63ada007d58aa93482f69bab7c6cb03","blockNumber":13,"logIndex":0,"removed":false,"transactionHash":"0x80bbf5af92dd3b917462edf0fd0fa32c009feeead44f0c92a7dce66638b85938","transactionIndex":0,"event":"Approval","args":{"_owner":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_spender":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_value":20},"_id":"13_0_0","timestamp":1558001592862511900}
 {"address":"0x938781b9796aea6376e40ca158f67fa89d5d8a18","blockHash":"0x3db634ff78c484f7575883abee3b3e1a721defba5972b0107c7e0e93bc4d655a","blockNumber":14,"logIndex":0,"removed":false,"transactionHash":"0x3e5cfcd4075020959dffeffc3eaaa88eca16224b60de7e7a5719f52cf76e65e2","transactionIndex":0,"event":"Transfer","args":{"_from":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_to":"0xcf881f397fa3b4bbd82f14e6f462d523c4c32ee0","_value":20},"_id":"14_0_0","timestamp":1558002062026611200}
 {"address":"0x938781b9796aea6376e40ca158f67fa89d5d8a18","blockHash":"0x52197e02a37d8f7ceeb7ada1b81bbf273189dce0fd1b89013ba451bd22cab4c7","blockNumber":15,"logIndex":0,"removed":false,"transactionHash":"0x7a801b0234b6244071be3b8758aff71ad82335a4f77aae491c72e850d0c62b25","transactionIndex":0,"event":"Approval","args":{"_owner":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_spender":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_value":900},"_id":"15_0_0","timestamp":1558002136537862400}
@@ -18,7 +21,11 @@
 {"$$indexCreated":{"fieldName":"timestamp","unique":false,"sparse":false}}
 {"$$indexCreated":{"fieldName":"args._from","unique":false,"sparse":false}}
 {"$$indexCreated":{"fieldName":"args._to","unique":false,"sparse":false}}
-{"_id":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","balance":16000}
-{"_id":"0x87a4a4aaecb0f98c642610e14e7b8958cf4adddc","balance":4000}
-{"_id":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","balance":16000}
-{"_id":"0x87a4a4aaecb0f98c642610e14e7b8958cf4adddc","balance":4000}
+{"address":"0xa501afd7d6432718daf4458cfae8590d88de818e","blockHash":"0x9c32a32a0f4002e6c95ca599d3bbc7a9393d5a92d7de3ad70aa30ee2a3995712","blockNumber":17,"logIndex":0,"removed":false,"transactionHash":"0xd3cb95ecdace0bd00b52828e98db4f79c305248e1c1f7d60b3827c861451b9c8","transactionIndex":0,"event":"Approval","args":{"_owner":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_spender":"0xe46827ca973d114bc9ce565306393898a0b3b69c","_value":20},"_id":"17_0_0","timestamp":1558091562224314600}
+{"_id":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","balance":450}
+{"_id":"0xe46827ca973d114bc9ce565306393898a0b3b69c","balance":50}
+{"address":"0xa501afd7d6432718daf4458cfae8590d88de818e","blockHash":"0x7b9e3f8d3e8dd707b86b84615d3f49c37e66230808f469469721d861e3c8647d","blockNumber":20,"logIndex":0,"removed":false,"transactionHash":"0xc9becafe5d37ffbbdd3d44c8883c33afc446b28d9159de7d9da1b0630d932731","transactionIndex":0,"event":"Approval","args":{"_owner":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","_spender":"0xe46827ca973d114bc9ce565306393898a0b3b69c","_value":20},"_id":"20_0_0","timestamp":1558092495956583000}
+{"_id":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","balance":450}
+{"_id":"0xe46827ca973d114bc9ce565306393898a0b3b69c","balance":50}
+{"_id":"0xed9d02e382b34818e88b88a309c7fe71e65f419d","balance":450}
+{"_id":"0xe46827ca973d114bc9ce565306393898a0b3b69c","balance":50}
