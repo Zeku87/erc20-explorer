@@ -116,11 +116,11 @@ var exporter = function (config, db) {
         log.from_name = "N10"
       }
 
-      if(log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
+      if(log.args.to === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
         log.to_name = "N03"
       }
 
-      if(log.args.from === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
+      if(log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
         log.to_name = "N10"
       }
 
