@@ -21,9 +21,12 @@ block content
         table.table
           tr
             th Type
-            th From
-            th To
+            th From hash
+            th To hash
             th Amount
             th Date
+            th From name
+            th To name
+            th Concept
           for event in events
             +event_row(event)

@@ -19,7 +19,7 @@ router.get('/:account/:offset?', function(req, res, next) {
       return next({message: "Account not found!"});
     }
     
-    db.find( {$or: [{ "args._from": req.params.account }, { "args._to": req.params.account }] }).sort({ timestamp: -1 }).skip(req.params.offset).limit(50).exec(function(err, events) {
+    db.find( {$or: [{ "args.from": req.params.account }, { "args.to": req.params.account }] }).sort({ timestamp: -1 }).skip(req.params.offset).limit(50).exec(function(err, events) {
       res.render('account', { balance: balance[0], events: events, offset: req.params.offset, stepSize: 50 });
     });
   });

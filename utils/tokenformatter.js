@@ -8,8 +8,13 @@ function tokenFormatter(config) {
   /* This function just formats the amount */
   self.format = function(amount) {
   
-    var ret = new BigNumber(amount.toString());
-    return ret + " " + config.tokenShortName;
+    if(amount !== undefined){
+      var ret = new BigNumber(amount.toString());
+      return ret + " " + config.tokenShortName;
+    }
+    else{
+      return "" + 0;
+    }
   };
 }
 

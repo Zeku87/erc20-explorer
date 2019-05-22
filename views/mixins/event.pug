@@ -4,18 +4,24 @@ mixin event_row(event)
       td
         a(href="/event/" + event._id) #{event.event}
       td
-        a(href="/account/" + event.args._from) #{event.args._from}
+        a(href="/account/" + event.args.from) #{event.args.from}
       td
-        a(href="/account/" + event.args._to) #{event.args._to}
-      td #{tokenformatter.format(event.args._value)}
+        a(href="/account/" + event.args.to) #{event.args.to}
+      td #{tokenformatter.format(event.args.value)}
       td #{moment.unix(event.timestamp/1000000000, "yy/mm/dd").fromNow()}
+      td #{event.from_name}
+      td #{event.to_name}
+      td #{event.concept}
   if event.event === "Approval"
     tr
       td
         a(href="/event/" + event._id) #{event.event}
       td
-        a(href="/account/" + event.args._owner) #{event.args._owner}
+        a(href="/account/" + event.args.owner) #{event.args.owner}
       td
-        a(href="/account/" + event.args._spender) #{event.args._spender}
+        a(href="/account/" + event.args.spender) #{event.args.spender}
       td #{tokenformatter.format(event.args._value)}
       td #{moment.unix(event.timestamp/1000000000, "yy/mm/dd").fromNow()}
+      td #{event.from_name}
+      td #{event.to_name}
+      td #{event.concept}
