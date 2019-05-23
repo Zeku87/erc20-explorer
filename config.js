@@ -5,7 +5,7 @@ var config = function () {
 
   this.logFormat = "combined";
   // this.providerAddr = "http://52.142.199.184:22000";
-  //this.providerAddr = "http://52.142.220.82:22000";
+  // this.providerAddr = "http://52.142.220.82:22000";
   this.providerAddr = "http://localhost:22000";
   this.provider = new web3.providers.HttpProvider(this.providerAddr);
 

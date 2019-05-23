@@ -56,7 +56,7 @@ var exporter = function (config, db) {
         if (log.args.from === "0x0000000000000000000000000000000000000000") {
           log.concept = "Creación de tokens"
         }else{
-          log.concept = array[index + 1].concepto
+          log.concept = array[index + 1].args.concepto
         }
       }
 
@@ -101,11 +101,6 @@ var exporter = function (config, db) {
         log.args.value = log.args.value.toNumber();
       }
 
-
-      if (log.args.from === "0x0000000000000000000000000000000000000000" && log.event === "Transfer") {
-        log.concept = "Creación de tokens"
-      }
-
       if(log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
         log.from_name = "N03"
       }
@@ -123,6 +118,7 @@ var exporter = function (config, db) {
       }
 
       self.db.insert(log, function (err, newLogs) {
+        console.log(log.concept)
         if (err) {
           if (err.message.indexOf("unique") !== -1) {
             console.log(log._id, "already exported!");
