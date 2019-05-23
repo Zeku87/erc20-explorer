@@ -47,16 +47,29 @@ var exporter = function (config, db) {
       return;
     }
     var accounts = {};
-    var concepto = "";
 
+    //Leemos cada evento mediante este forEach
+    //cada evento se almacena en el objeto log
     logs.forEach(function (log, index, array) {
       if (log.event === "Transfer") {
         accounts[log.args.from] = log.args.from;
         accounts[log.args.to] = log.args.to;
+
+        //Inclusión de informacion en el esquema del evento cuando hay creación de tokens
+        //TODO: impl evento cuando haya creación de tokens para tomar la información dinamicamente
         if (log.args.from === "0x0000000000000000000000000000000000000000") {
           log.concept = "Creación de tokens"
-        }else{
+          if (log.args.to === "0xed9d02e382b34818e88b88a309c7fe71e65f419d")
+            log.to_name = "N03"
+          if (log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a")
+            log.to_name = "N10"
+        } else {
+          //tras un evento de tipo transfer le sigue otro de tipo info
+          //de este ultimo extraemos información y la agregamos en el evento transfer
+          //para que sea leída por la interfaz 
           log.concept = array[index + 1].args.concepto
+          log.from_name = array[index + 1].args.from
+          log.to_name = array[index + 1].args.to
         }
       }
 
@@ -99,22 +112,6 @@ var exporter = function (config, db) {
 
       if (log.args && log.args.value) {
         log.args.value = log.args.value.toNumber();
-      }
-
-      if(log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
-        log.from_name = "N03"
-      }
-
-      if(log.args.from === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
-        log.from_name = "N10"
-      }
-
-      if(log.args.to === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
-        log.to_name = "N03"
-      }
-
-      if(log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
-        log.to_name = "N10"
       }
 
       self.db.insert(log, function (err, newLogs) {
