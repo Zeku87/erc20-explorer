@@ -47,21 +47,22 @@ var exporter = function (config, db) {
       return;
     }
     var accounts = {};
+    var concepto = "";
 
-    logs.forEach(function (log) {
+    logs.forEach(function (log, index, array) {
       if (log.event === "Transfer") {
         accounts[log.args.from] = log.args.from;
         accounts[log.args.to] = log.args.to;
+        if (log.args.from === "0x0000000000000000000000000000000000000000") {
+          log.concept = "Creación de tokens"
+        }else{
+          log.concept = array[index + 1].concepto
+        }
       }
 
       if (log.event === "Approval") {
         accounts[log.args.owner] = log.args.owner;
         accounts[log.args.spender] = log.args.spender;
-      }
-
-      /**/
-      if (log.event === "InfoTransaction") {
-
       }
 
       console.log("History" + log.event + ": " + log.args.from + ", " + log.args.to);
@@ -103,9 +104,6 @@ var exporter = function (config, db) {
 
       if (log.args.from === "0x0000000000000000000000000000000000000000" && log.event === "Transfer") {
         log.concept = "Creación de tokens"
-      }
-      if (log.args.from !== "0x0000000000000000000000000000000000000000" && log.event === "Transfer") {
-        log.concept = "Traspaso 5510"
       }
 
       if(log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
