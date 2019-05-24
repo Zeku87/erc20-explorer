@@ -70,6 +70,7 @@ var exporter = function (config, db) {
           log.concept = array[index + 1].args.concepto
           log.from_name = array[index + 1].args.from
           log.to_name = array[index + 1].args.to
+          console.log("Original: " + log.concept)
         }
       }
 
@@ -115,7 +116,7 @@ var exporter = function (config, db) {
       }
 
       self.db.insert(log, function (err, newLogs) {
-        console.log(log.concept)
+        console.log("CONCEPTO: " + log.concept)
         if (err) {
           if (err.message.indexOf("unique") !== -1) {
             console.log(log._id, "already exported!");
