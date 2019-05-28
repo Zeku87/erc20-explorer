@@ -11,6 +11,7 @@ var accounts = require('./routes/accounts');
 var event = require('./routes/event');
 var events = require('./routes/events');
 var search = require('./routes/search');
+var downloadExcel = require('./routes/download_excel');
 
 var config = new(require('./config.js'))();
 var Datastore = require('nedb-core')
@@ -66,6 +67,7 @@ app.use('/accounts', accounts);
 app.use('/event', event);
 app.use('/events', events);
 app.use('/search', search);
+app.use('/download', downloadExcel);
 
 app.locals.moment = require('moment');
 app.locals.nodeStatus = new(require('./utils/nodeStatus.js'))(config);
