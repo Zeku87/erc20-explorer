@@ -38,8 +38,8 @@ html(lang="en")
             li
               a(href='/download') Dowload excel
             li
-              form(method="POST" enctype="multipart/form-data" action="http://54.194.58.218:8080/poc-intercompany-1/uploadExcelFile/")
-                input(type='file' name='excel')
+              form(method="POST" enctype="multipart/form-data" action="http://52.142.199.184:8080/poc-intercompany-1/uploadExcelFile/" target="/")
+                input(type='file' name='file')
                 input(type='submit' value='Upload')
               
           form.navbar-form.navbar-right(action="/search", method="POST")
