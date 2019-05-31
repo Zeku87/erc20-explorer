@@ -47,30 +47,16 @@ var exporter = function (config, db) {
       return;
     }
     var accounts = {};
+    var concepto = "";
 
-    //Leemos cada evento mediante este forEach
-    //cada evento se almacena en el objeto log
     logs.forEach(function (log, index, array) {
       if (log.event === "Transfer") {
         accounts[log.args.from] = log.args.from;
         accounts[log.args.to] = log.args.to;
-
-        //Inclusión de informacion en el esquema del evento cuando hay creación de tokens
-        //TODO: impl evento cuando haya creación de tokens para tomar la información dinamicamente
         if (log.args.from === "0x0000000000000000000000000000000000000000") {
           log.concept = "Creación de tokens"
-          if (log.args.to === "0xed9d02e382b34818e88b88a309c7fe71e65f419d")
-            log.to_name = "N03"
-          if (log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a")
-            log.to_name = "N10"
-        } else {
-          //tras un evento de tipo transfer le sigue otro de tipo info
-          //de este ultimo extraemos información y la agregamos en el evento transfer
-          //para que sea leída por la interfaz 
+        }else{
           log.concept = array[index + 1].args.concepto
-          log.from_name = array[index + 1].args.from
-          log.to_name = array[index + 1].args.to
-          console.log("Original: " + log.concept)
         }
       }
 
@@ -96,6 +82,7 @@ var exporter = function (config, db) {
     });
   }
 
+  //insert into db historical and emerged events
   self.processLog = function (log, callback) {
     log._id = log.blockNumber + "_" + log.transactionIndex + "_" + log.logIndex;
 
@@ -115,8 +102,32 @@ var exporter = function (config, db) {
         log.args.value = log.args.value.toNumber();
       }
 
+      if(log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
+        log.from_name = "N03"
+      }
+
+      if(log.args.from === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
+        log.from_name = "N10"
+      }
+
+      if(log.args.to === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
+        log.to_name = "N03"
+      }
+
+      if(log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
+        log.to_name = "N10"
+      }
+      
+      if(log.args.from === "0x0000000000000000000000000000000000000000"){
+        log.concept = "Creación de Tokens"
+      }
+
+      if(log.event === "InfoTransaction"){
+        self.exportConcept(log, callback);
+      }
+
       self.db.insert(log, function (err, newLogs) {
-        console.log("CONCEPTO: " + log.concept)
+        console.log(log.concept)
         if (err) {
           if (err.message.indexOf("unique") !== -1) {
             console.log(log._id, "already exported!");
@@ -132,6 +143,7 @@ var exporter = function (config, db) {
     });
   }
 
+  //Update balance into db
   self.exportBalance = function (address, callback) {
     console.log("Exporting balance of", address);
     self.contract.balanceOf(address, function (err, balance) {
@@ -147,6 +159,23 @@ var exporter = function (config, db) {
           callback();
       });
     });
+  }
+
+  //update concept into db
+  self.exportConcept = function(log, callback){
+    if(log.event === "InfoTransaction"){
+      self.db.update({ blockhash: log.blockhash }, {concepto: log.concepto}, { upsert: true }, function (err, numReplaced) {
+        if (err) {
+          console.log("Can't update:", err);
+        } else {
+          console.log("Replaced rows: " + numReplaced);
+          console.log("Balance export completed");
+        }
+
+        if(!callback)
+          callback();
+      });
+    }
   }
 
   console.log("Exporter initialized, waiting for historical events...");
