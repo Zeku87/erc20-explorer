@@ -99,6 +99,10 @@ var exporter = function (config, db) {
         log.args.value = log.args.value.toNumber();
       }
 
+      if (log.args.from === "0x0000000000000000000000000000000000000000"){
+        log.concept = "Creación de tokens";
+      }
+
       if (log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d") {
         log.from_name = "N03"
       }
