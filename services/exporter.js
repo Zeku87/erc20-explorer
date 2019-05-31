@@ -65,7 +65,7 @@ var exporter = function (config, db) {
         accounts[log.args.spender] = log.args.spender;
       }
 
-      console.log("History" + log.event + ": " + log.args.from + ", " + log.args.to);
+      console.log("History " + log.event + ": " + log.args.from + ", " + log.args.to + ", " + log.concept);
     });
 
     async.eachSeries(logs, self.processLog, function (err) {
@@ -82,11 +82,10 @@ var exporter = function (config, db) {
     });
   }
 
-  //insert into db historical and emerged events
   self.processLog = function (log, callback) {
     log._id = log.blockNumber + "_" + log.transactionIndex + "_" + log.logIndex;
 
-    console.log("Exporting log:", log._id);
+    console.log("Exporting log:", log.concept);
 
     self.web3.eth.getBlock(log.blockNumber, false, function (err, block) {
       if (err) {
@@ -117,33 +116,35 @@ var exporter = function (config, db) {
       if(log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
         log.to_name = "N10"
       }
-      
-      if(log.args.from === "0x0000000000000000000000000000000000000000"){
-        log.concept = "Creación de Tokens"
-      }
-
-      if(log.event === "InfoTransaction"){
-        self.exportConcept(log, callback);
-      }
 
       self.db.insert(log, function (err, newLogs) {
-        console.log(log.concept)
         if (err) {
           if (err.message.indexOf("unique") !== -1) {
-            console.log(log._id, "already exported!");
+            console.log(log._id, "already exported!");  
           } else {
             console.log("Error inserting log:", err);
           }
         } else {
           console.log("Insertion " + JSON.stringify(newLogs));
         }
-
         callback();
       });
+    
+      //Update the current row with the concept if this exists
+      if(log.concept){
+        self.db.update({_id:log._id}, log ,{upsert:true}, function(err, numReplaced){
+          if(err){
+            console.log("Could not update " + err);
+          }else{
+            console.log("Rows replaced " + numReplaced);
+          }
+        });
+      }
     });
+
+
   }
 
-  //Update balance into db
   self.exportBalance = function (address, callback) {
     console.log("Exporting balance of", address);
     self.contract.balanceOf(address, function (err, balance) {
@@ -159,23 +160,6 @@ var exporter = function (config, db) {
           callback();
       });
     });
-  }
-
-  //update concept into db
-  self.exportConcept = function(log, callback){
-    if(log.event === "InfoTransaction"){
-      self.db.update({ blockhash: log.blockhash }, {concepto: log.concepto}, { upsert: true }, function (err, numReplaced) {
-        if (err) {
-          console.log("Can't update:", err);
-        } else {
-          console.log("Replaced rows: " + numReplaced);
-          console.log("Balance export completed");
-        }
-
-        if(!callback)
-          callback();
-      });
-    }
   }
 
   console.log("Exporter initialized, waiting for historical events...");
