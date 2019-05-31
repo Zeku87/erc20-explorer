@@ -14,8 +14,6 @@ var exporter = function (config, db) {
   self.allEvents = self.contract.allEvents({ fromBlock: config.exportStartBlock, toBlock: "latest" });
   self.newEvents = self.contract.allEvents();
 
-  console.log("Concepto: " + self.contract.getConcepto('0'));
-
   // Processes new events
   self.newEvents.watch(function (err, log) {
     if (err) {
@@ -55,7 +53,7 @@ var exporter = function (config, db) {
         accounts[log.args.to] = log.args.to;
         if (log.args.from === "0x0000000000000000000000000000000000000000") {
           log.concept = "Creación de tokens"
-        }else{
+        } else {
           log.concept = array[index + 1].args.concepto
         }
       }
@@ -101,41 +99,54 @@ var exporter = function (config, db) {
         log.args.value = log.args.value.toNumber();
       }
 
-      if(log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
+      if (log.args.from === "0xed9d02e382b34818e88b88a309c7fe71e65f419d") {
         log.from_name = "N03"
       }
 
-      if(log.args.from === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
+      if (log.args.from === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a") {
         log.from_name = "N10"
       }
 
-      if(log.args.to === "0xed9d02e382b34818e88b88a309c7fe71e65f419d"){
+      if (log.args.to === "0xed9d02e382b34818e88b88a309c7fe71e65f419d") {
         log.to_name = "N03"
       }
 
-      if(log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"){
+      if (log.args.to === "0x0fbdc686b912d7722dc86510934589e0aaf3b55a") {
         log.to_name = "N10"
       }
 
       self.db.insert(log, function (err, newLogs) {
         if (err) {
           if (err.message.indexOf("unique") !== -1) {
-            console.log(log._id, "already exported!");  
+            console.log(log._id, "already exported!");
           } else {
             console.log("Error inserting log:", err);
           }
         } else {
           console.log("Insertion " + JSON.stringify(newLogs));
+          //if the insertion is of type InfoTransaction then we need to update the Transfer insertion
+          //adding the concept field into it
+          //First: Check if concept exists
+          if (log.args.concepto) {
+            db.update({ blockHash: log.blockHash, event: 'Transfer' }, { $set: { concept: log.args.concepto } }, { multi: false }, function (err, numReplaced) {
+              if (err) {
+                console.log("Could not update " + err);
+              } else {
+                console.log("Rows replaced " + numReplaced);
+              }
+            });
+          }
+
         }
         callback();
       });
-    
+
       //Update the current row with the concept if this exists
-      if(log.concept){
-        self.db.update({_id:log._id}, log ,{upsert:true}, function(err, numReplaced){
-          if(err){
+      if (log.concept) {
+        self.db.update({ _id: log._id }, log, { upsert: true }, function (err, numReplaced) {
+          if (err) {
             console.log("Could not update " + err);
-          }else{
+          } else {
             console.log("Rows replaced " + numReplaced);
           }
         });
